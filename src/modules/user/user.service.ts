@@ -1,6 +1,8 @@
 import { CreateUserDto, IUserModel, UpdateUserDto } from "@modules/user/types";
 import usersRepository from "@modules/user/user.repository";
 
+// TODO: сделать выбрасывание ошибок бд
+
 class UserService {
   async getAllUsers(): Promise<IUserModel[]> {
     const users = await usersRepository.getAllUsers();

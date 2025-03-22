@@ -75,6 +75,17 @@ class AuthController {
       next(error);
     }
   }
+
+  async authMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { refreshToken } = req.cookies;
+      const authUser = await authService.getAuthUser(refreshToken);
+
+      res.status(200).json(authUser);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new AuthController();
