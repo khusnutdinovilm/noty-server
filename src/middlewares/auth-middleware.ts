@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
-import tokenService from "@services/token-service";
-import { TokenPayload } from "@services/types";
+import tokenService from "@modules/token/token.service";
+import { TokenPayload } from "@modules/token/types";
 import ApiError from "@utils/api-error";
 
 interface Req extends Request {
