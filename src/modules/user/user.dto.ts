@@ -32,4 +32,9 @@ export default class UserDto {
       password,
     };
   }
+
+  public toTokenPayload() {
+    const { _id: id, email, role, isActivated } = this.user;
+    return { id, email, role, isActivated };
+  }
 }

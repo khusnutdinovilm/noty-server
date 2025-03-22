@@ -10,7 +10,8 @@ export interface ITokenDto extends Omit<ITokenModel, "_id"> {
   id: string;
 }
 
-export type TokenPayload = Omit<IUserDto, "id" | "email" | "role">;
+type TokenPayloadFields = "id" | "email" | "role";
+export type TokenPayload = Pick<IUserDto, TokenPayloadFields>;
 
 export type TokenData = {
   accessToken: string;

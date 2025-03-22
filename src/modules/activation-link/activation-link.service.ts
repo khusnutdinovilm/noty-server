@@ -1,47 +1,17 @@
 import activationLinkRepository from "@modules/activation-link/activation-link.repository";
-import { IActivationLinkDto } from "@modules/activation-link/types";
+import { IActivationLinkModel } from "@modules/activation-link/types";
 
 class ActivationLinkService {
-  async getActivationLink(link: string): Promise<IActivationLinkDto | null> {
-    const activationLink = await activationLinkRepository.getActivationLinkByLink(link);
-
-    if (!activationLink) {
-      throw new Error("Ссылка для активации не найдена :(");
-    }
-
-    return {
-      id: activationLink._id,
-      userId: activationLink.userId,
-      link: activationLink.link,
-    };
+  async getActivationLink(link: string): Promise<IActivationLinkModel | null> {
+    return await activationLinkRepository.getActivationLinkByLink(link);
   }
 
-  async createActivationLink(userId: string, link: string): Promise<IActivationLinkDto | null> {
-    const newActivationLink = await activationLinkRepository.createActivationLink(userId, link);
-
-    if (!newActivationLink) {
-      throw new Error("Не удалось создать ссылку для активации аккаунта");
-    }
-
-    return {
-      id: newActivationLink._id,
-      userId: newActivationLink.userId,
-      link: newActivationLink.link,
-    };
+  async createActivationLink(userId: string, link: string): Promise<IActivationLinkModel> {
+    return await activationLinkRepository.createActivationLink(userId, link);
   }
 
-  async deleteActivationLinkByLink(link: string): Promise<IActivationLinkDto | null> {
-    const deletedActivationLink = await activationLinkRepository.deleteActivationLinkByLink(link);
-
-    if (!deletedActivationLink) {
-      throw new Error("Не удалось удалить ссылку для активации аккаунта");
-    }
-
-    return {
-      id: deletedActivationLink._id,
-      userId: deletedActivationLink.userId,
-      link: deletedActivationLink.link,
-    };
+  async deleteActivationLinkByLink(link: string): Promise<IActivationLinkModel | null> {
+    return await activationLinkRepository.deleteActivationLinkByLink(link);
   }
 }
 

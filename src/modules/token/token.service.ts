@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
-import { TokenData, TokenPayload } from "@modules/token/types";
+import { ITokenModel, TokenData, TokenPayload } from "@modules/token/types";
+import tokenRepository from "./token.repository";
 
 class TokenService {
   generateTokens(tokenPayload: TokenPayload): TokenData {
@@ -39,6 +40,18 @@ class TokenService {
     } catch (error) {
       return null;
     }
+  }
+
+  async saveRefreshToken(userId: string, refreshToken: string): Promise<ITokenModel> {
+    return await tokenRepository.createToken({ userId, refreshToken });
+  }
+
+  async findTokenByRefresh(refreshToken: string): Promise<ITokenModel | null> {
+    return await tokenRepository.findTokenByRefresh(refreshToken);
+  }
+
+  async deleteTokenByRefresh(refreshToken: string): Promise<ITokenModel | null> {
+    return await tokenRepository.deleteToken(refreshToken);
   }
 }
 

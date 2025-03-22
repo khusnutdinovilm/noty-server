@@ -1,64 +1,53 @@
-import { CreateUserDto, IUserAuthDto, IUserDto, IUserModel, UpdateUserDto } from "@modules/user/types";
-import UserDto from "@modules/user/user.dto";
+import { CreateUserDto, IUserModel, UpdateUserDto } from "@modules/user/types";
 import usersRepository from "@modules/user/user.repository";
 
 class UserService {
-  async getAllUsers(): Promise<IUserDto[]> {
+  async getAllUsers(): Promise<IUserModel[]> {
     const users = await usersRepository.getAllUsers();
 
     if (users.length === 0) {
       throw new Error("Список пользователей пуст:(");
     }
 
-    const usersDtos = users.map((user) => new UserDto(user).toDto());
-
-    return usersDtos;
+    return users;
   }
 
-  async getUserById(userId: IUserModel["_id"]): Promise<IUserDto> {
-    const user = await usersRepository.getUserById(userId);
-
-    if (!user) {
-      throw new Error("Данного пользователя не существует");
-    }
-
-    return new UserDto(user).toDto();
+  async getUserById(userId: IUserModel["_id"]): Promise<IUserModel | null> {
+    return await usersRepository.getUserById(userId);
   }
 
-  async getUserByEmail(email: IUserModel["email"]): Promise<IUserAuthDto> {
-    const user = await usersRepository.getUserByEmail(email);
-
-    if (!user) {
-      throw new Error("Данного пользователя не существует");
-    }
-
-    return new UserDto(user).toAuthDto();
+  async getUserByEmail(email: IUserModel["email"]): Promise<IUserModel | null> {
+    return await usersRepository.getUserByEmail(email);
   }
 
-  async createUser(userData: CreateUserDto): Promise<IUserDto> {
+  async createUser(userData: CreateUserDto): Promise<IUserModel> {
     const newUser = await usersRepository.createUser(userData);
 
     if (!newUser) {
       throw new Error("Не удалось создать пользователя");
     }
 
-    return new UserDto(newUser).toDto();
+    return newUser;
   }
 
-  async updateUser(userId: IUserModel["_id"], userData: UpdateUserDto): Promise<void> {
-    const updateResult = await usersRepository.updateUser(userId, userData);
+  async updateUser(userId: IUserModel["_id"], userData: UpdateUserDto): Promise<IUserModel> {
+    const updatedUser = await usersRepository.updateUser(userId, userData);
 
-    if (!updateResult) {
+    if (!updatedUser) {
       throw new Error("Не удалось обновить пользователя");
     }
+
+    return updatedUser;
   }
 
-  async deleteUserById(userId: IUserModel["_id"]): Promise<void> {
-    const deleteResult = await usersRepository.deleteUserById(userId);
+  async deleteUserById(userId: IUserModel["_id"]): Promise<IUserModel> {
+    const deletedUser = await usersRepository.deleteUserById(userId);
 
-    if (!deleteResult) {
+    if (!deletedUser) {
       throw new Error("Не удалось удалить пользователя");
     }
+
+    return deletedUser;
   }
 }
 

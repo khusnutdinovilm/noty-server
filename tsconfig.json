@@ -35,6 +35,7 @@
       "@router/*": ["src/router/*"],
       "@services/*": ["src/services/*"],
       "@controllers/*": ["src/controllers/*"],
+      "@middlewares/*": ["src/middlewares/*"],
       "@models/*": ["src/models/*"],
       "@dtos/*": ["src/dtos/*"],
       "@utils/*": ["src/utils/*"]
