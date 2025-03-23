@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import errorMiddleware from "@middlewares/error-middleware";
 import authRouter from "@modules/auth/auth.router";
+import noteRouter from "@modules/note/note.router";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 app.use("/api", authRouter);
+app.use("/api", noteRouter);
 app.use(errorMiddleware);
 
 const startApp = async () => {
